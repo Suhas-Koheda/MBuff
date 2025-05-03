@@ -1,4 +1,37 @@
-composeApp/build/
+# Gradle
+.gradle/
+build/
 */build/
+local.properties
+
+# IDE
+*.iml
+.idea/
+.fleet/
+xcuserdata/
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/project.xcworkspace/
+*.xcworkspace/*
+!*.xcworkspace/contents.xcworkspacedata
+.xcode.env.local
+
+# Compiled output
 *.apk
+*.aab
 *.dex
+*.class
+*.hprof
+
+# Logs
+*.log
+
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
