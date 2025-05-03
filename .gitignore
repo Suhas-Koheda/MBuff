@@ -17,6 +17,9 @@ xcuserdata/
 !*.xcworkspace/contents.xcworkspacedata
 .xcode.env.local
 
+# Kotlin transformed metadata libraries
+.kotlin/metadata/kotlinTransformedMetadataLibraries/
+
 # Compiled output
 *.apk
 *.aab
