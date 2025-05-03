@@ -19,7 +19,7 @@ xcuserdata/
 
 # Kotlin transformed metadata libraries
 .kotlin/metadata/kotlinTransformedMetadataLibraries/
-
+.kotlin/
 # Compiled output
 *.apk
 *.aab
