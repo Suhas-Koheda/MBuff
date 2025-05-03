@@ -1,0 +1,4 @@
+composeApp/build/
+*/build/
+*.apk
+*.dex
