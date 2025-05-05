@@ -1,14 +1,14 @@
-package dev.haas.mobuff.movies
+package dev.haas.mobuff.movies.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.haas.mobuff.movies.model.Movie
-import dev.haas.mobuff.movies.model.MovieLogic
+import dev.haas.mobuff.movies.domain.model.Movie
+import dev.haas.mobuff.movies.data.repository.TMDBRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class MovieViewModel(val movieLogic:MovieLogic):ViewModel(){
+class MovieViewModel(val tmdbRepository: TMDBRepository):ViewModel(){
 
     sealed class MovieState{
         object Loading:MovieState()
@@ -24,7 +24,7 @@ class MovieViewModel(val movieLogic:MovieLogic):ViewModel(){
         viewModelScope.launch {
             _movieState.value=MovieState.Loading
             try {
-                val movies=movieLogic.searchMovie(query,language,page)
+                val movies=tmdbRepository.getMovie(query,language,page)
                 _movieState.value=MovieState.Success(movies.results)
             }catch (e:Exception){
                 _movieState.value=MovieState.Error(e.message.toString())
@@ -35,5 +35,4 @@ class MovieViewModel(val movieLogic:MovieLogic):ViewModel(){
     init{
         fetchMovies()
     }
-
 }

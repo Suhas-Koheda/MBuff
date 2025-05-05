@@ -1,4 +1,4 @@
-package dev.haas.mobuff.movies
+package dev.haas.mobuff.movies.presentation
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -30,8 +30,8 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import coil3.compose.AsyncImage
-import dev.haas.mobuff.movies.model.Movie
-import dev.haas.mobuff.movies.model.MovieLogic
+import dev.haas.mobuff.movies.domain.model.Movie
+import dev.haas.mobuff.movies.data.repository.TMDBRepository
 
 data class LanguagePagePair(
     val name: String,
@@ -42,7 +42,7 @@ class MovieScreen: Screen{
     @Composable
     override fun Content() {
         val movieViewModel:MovieViewModel= remember {
-            MovieViewModel(MovieLogic)
+            MovieViewModel(TMDBRepository.instance)
         }
 
         Column() {

@@ -1,4 +1,4 @@
-package dev.haas.mobuff.movies.model
+package dev.haas.mobuff.movies.domain.model
 
 import kotlinx.serialization.Serializable
 
