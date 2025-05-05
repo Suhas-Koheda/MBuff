@@ -113,7 +113,7 @@ fun SearchWidget(movieViewModel:MovieViewModel){
             label = { Text("Search For a Movie") },
             trailingIcon = {
               Button(onClick = {
-                  movieViewModel.searchMovie(movie,selectedLanguage,page)
+                  movieViewModel.fetchMovies(movie,selectedLanguage,page)
               }) {
                   Icon(Icons.Outlined.Search, contentDescription = null)
               }
@@ -167,7 +167,7 @@ fun Filters(
                     selected = selectedLanguage == language.second,
                     onClick = {
                         selectedLanguage = language.second
-                        movieViewModel.fetchPage(selectedLanguage=language.second)
+                        movieViewModel.fetchMovies(language=language.second)
                     },
                     label = { Text(language.first) },
                     modifier = Modifier.padding(end = 8.dp)
@@ -185,7 +185,7 @@ fun Filters(
                             selected = page == i,
                             onClick = {
                                 page = i
-                                movieViewModel.fetchPage(selectedLanguage, i)
+                                movieViewModel.fetchMovies(language=selectedLanguage, page=i)
                             },
                             label = { Text("$i") },
                             modifier = Modifier.padding(end = 8.dp)
@@ -195,7 +195,7 @@ fun Filters(
                 item(){
                     FilterChip(
                         onClick = {
-                            movieViewModel.fetchPage(selectedLanguage, lastPage++)
+                            movieViewModel.fetchMovies(language=selectedLanguage, page=lastPage++)
                         },
                         label = { Text("Next") },
                         modifier = Modifier.padding(end = 8.dp),

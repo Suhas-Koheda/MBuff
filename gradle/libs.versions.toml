@@ -20,6 +20,7 @@ kotlinxSerializationJson = "1.8.0"     # Kotlin Serialization
 ktorClientCore = "3.1.2"               # Ktor
 roomRuntime = "2.7.1"                  # Room
 voyagerNavigator = "1.1.0-beta02"      # Voyager
+composeHotReload = "1.0.0-alpha09"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -58,3 +59,4 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "composeHotReload" }

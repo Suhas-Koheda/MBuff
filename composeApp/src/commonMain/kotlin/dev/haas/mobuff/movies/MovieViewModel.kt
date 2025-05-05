@@ -18,31 +18,9 @@ class MovieViewModel(val movieLogic:MovieLogic):ViewModel(){
 
     private val _movieState= MutableStateFlow<MovieState>(MovieState.Loading)
     val movieState=_movieState.asStateFlow()
-    private fun fetchMovies(){
-        viewModelScope.launch {
-            _movieState.value=MovieState.Loading
-            try {
-                val movies=movieLogic.getMovieList()
-                _movieState.value=MovieState.Success(movies.results)
-            }catch (e:Exception){
-                _movieState.value=MovieState.Error(e.message.toString())
-            }
-        }
-    }
 
-    fun fetchPage(selectedLanguage:String,i: Int=1) {
-        viewModelScope.launch {
-            _movieState.value=MovieState.Loading
-            try {
-                val movies=movieLogic.getMovieList(language = selectedLanguage,page=i)
-                _movieState.value=MovieState.Success(movies.results)
-            }catch (e:Exception){
-                _movieState.value=MovieState.Error(e.message.toString())
-            }
-        }
-    }
 
-    fun searchMovie(query: String,language:String,page:Int) {
+    fun fetchMovies(query: String="", language:String="te", page:Int=1) {
         viewModelScope.launch {
             _movieState.value=MovieState.Loading
             try {
