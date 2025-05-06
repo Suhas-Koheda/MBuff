@@ -1,4 +1,4 @@
-package dev.haas.mobuff.movies.presentation
+package dev.haas.mobuff.movies.presentation.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically

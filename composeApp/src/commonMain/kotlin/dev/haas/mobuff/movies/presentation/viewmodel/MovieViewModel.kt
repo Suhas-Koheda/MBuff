@@ -1,14 +1,14 @@
-package dev.haas.mobuff.movies.presentation
+package dev.haas.mobuff.movies.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.haas.mobuff.movies.domain.model.Movie
 import dev.haas.mobuff.movies.data.repository.TMDBRepository
+import dev.haas.mobuff.movies.domain.model.Movie
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class MovieViewModel(val tmdbRepository: TMDBRepository):ViewModel(){
+class MovieViewModel(val tmdbRepository: TMDBRepository): ViewModel(){
 
     sealed class MovieState{
         object Loading:MovieState()

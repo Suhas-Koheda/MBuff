@@ -1,4 +1,4 @@
-package dev.haas.mobuff.movies.presentation
+package dev.haas.mobuff.movies.presentation.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -27,11 +27,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.core.screen.ScreenKey
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import coil3.compose.AsyncImage
 import dev.haas.mobuff.movies.domain.model.Movie
 import dev.haas.mobuff.movies.data.repository.TMDBRepository
+import dev.haas.mobuff.movies.presentation.viewmodel.MovieViewModel
 
 data class LanguagePagePair(
     val name: String,
@@ -39,9 +41,12 @@ data class LanguagePagePair(
 )
 
 class MovieScreen: Screen{
+
+    var moviePref:String="te 1"
+
     @Composable
     override fun Content() {
-        val movieViewModel:MovieViewModel= remember {
+        val movieViewModel: MovieViewModel = remember {
             MovieViewModel(TMDBRepository.instance)
         }
 
@@ -72,16 +77,15 @@ class MovieScreen: Screen{
             }
         }
     }
-}
-
-@Composable
-fun MovieItem(movie: Movie) {
-    val navigator= LocalNavigator.currentOrThrow
-    Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .clickable { navigator.push(MovieDetailScreen(movie)) }
-    ){
+    @Composable
+    fun MovieItem(movie: Movie) {
+        val navigator= LocalNavigator.currentOrThrow
+        Column(
+            modifier = Modifier
+                .padding(8.dp)
+                .clickable {
+                    navigator.push(MovieDetailScreen(movie)) }
+        ){
             AsyncImage(
                 model = movie.posterPathUrl,
                 contentDescription = null,
@@ -93,88 +97,88 @@ fun MovieItem(movie: Movie) {
                 }
             )
             Text(movie.title)
-    }
-}
-
-@Composable
-fun SearchWidget(movieViewModel:MovieViewModel){
-    var selectedLanguage by remember { mutableStateOf("te") }
-    var page by remember { mutableStateOf(1) }
-    Column {
-        var movie by remember { mutableStateOf("") }
-        TextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
-            value=movie,
-            onValueChange = {
-                movie = it
-            },
-            label = { Text("Search For a Movie") },
-            trailingIcon = {
-              Button(onClick = {
-                  movieViewModel.fetchMovies(movie,selectedLanguage,page)
-              }) {
-                  Icon(Icons.Outlined.Search, contentDescription = null)
-              }
-            }
-        )
-        Filters(
-            movieViewModel = movieViewModel,
-            selectedLanguage = selectedLanguage,
-            onLanguageSelected = { newLang -> selectedLanguage = newLang },
-            currentPage = page,
-            onPageSelected = { newPage -> page = newPage }
-        )
-    }
-}
-
-@OptIn(ExperimentalLayoutApi::class)
-@Composable
-fun Filters(
-    movieViewModel: MovieViewModel,
-    selectedLanguage: String,
-    onLanguageSelected: (String) -> Unit,
-    currentPage: Int,
-    onPageSelected: (Int) -> Unit
-){
-    val indianLanguages = listOf(
-        Pair("Telugu", "te"),
-        Pair("English", "en"),
-        Pair("Hindi", "hi"),
-        Pair("Bengali", "bn"),
-        Pair("Tamil", "ta"),
-        Pair("Marathi", "mr"),
-        Pair("Gujarati", "gu"),
-        Pair("Kannada", "kn"),
-        Pair("Malayalam", "ml"),
-        Pair("Punjabi", "pa"),
-        Pair("Odia", "or"),
-        Pair("Assamese", "as"),
-        Pair("Urdu", "ur")
-    )
-
-    var lastPage=10
-    var selectedLanguage by remember { mutableStateOf("te") }
-    Column {
-        LazyRow(
-            contentPadding = PaddingValues(horizontal = 8.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            items(indianLanguages.size) { index ->
-                val language = indianLanguages[index]
-                FilterChip(
-                    selected = selectedLanguage == language.second,
-                    onClick = {
-                        selectedLanguage = language.second
-                        movieViewModel.fetchMovies(language=language.second)
-                    },
-                    label = { Text(language.first) },
-                    modifier = Modifier.padding(end = 8.dp)
-                )
-            }
         }
+    }
+
+    @Composable
+    fun SearchWidget(movieViewModel: MovieViewModel){
+        var selectedLanguage by remember { mutableStateOf("te") }
         var page by remember { mutableStateOf(1) }
+        Column {
+            var movie by remember { mutableStateOf("") }
+            TextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                value=movie,
+                onValueChange = {
+                    movie = it
+                },
+                label = { Text("Search For a Movie") },
+                trailingIcon = {
+                    Button(onClick = {
+                        movieViewModel.fetchMovies(movie,selectedLanguage,page)
+                    }) {
+                        Icon(Icons.Outlined.Search, contentDescription = null)
+                    }
+                }
+            )
+            Filters(
+                movieViewModel = movieViewModel,
+                selectedLanguage = selectedLanguage,
+                onLanguageSelected = { newLang -> selectedLanguage = newLang },
+                currentPage = page,
+                onPageSelected = { newPage -> page = newPage }
+            )
+        }
+    }
+
+    @OptIn(ExperimentalLayoutApi::class)
+    @Composable
+    fun Filters(
+        movieViewModel: MovieViewModel,
+        selectedLanguage: String,
+        onLanguageSelected: (String) -> Unit,
+        currentPage: Int,
+        onPageSelected: (Int) -> Unit
+    ){
+        val indianLanguages = listOf(
+            Pair("Telugu", "te"),
+            Pair("English", "en"),
+            Pair("Hindi", "hi"),
+            Pair("Bengali", "bn"),
+            Pair("Tamil", "ta"),
+            Pair("Marathi", "mr"),
+            Pair("Gujarati", "gu"),
+            Pair("Kannada", "kn"),
+            Pair("Malayalam", "ml"),
+            Pair("Punjabi", "pa"),
+            Pair("Odia", "or"),
+            Pair("Assamese", "as"),
+            Pair("Urdu", "ur")
+        )
+
+        var lastPage=10
+        var selectedLanguage by remember { mutableStateOf("te") }
+        Column {
+            LazyRow(
+                contentPadding = PaddingValues(horizontal = 8.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                items(indianLanguages.size) { index ->
+                    val language = indianLanguages[index]
+                    FilterChip(
+                        selected = selectedLanguage == language.second,
+                        onClick = {
+                            selectedLanguage = language.second
+                            movieViewModel.fetchMovies(language=language.second)
+                        },
+                        label = { Text(language.first) },
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
+                }
+            }
+            var page by remember { mutableStateOf(1) }
             LazyRow(
                 contentPadding = PaddingValues(horizontal = 8.dp),
                 modifier = Modifier.fillMaxWidth()
@@ -202,6 +206,7 @@ fun Filters(
                         selected = page==10,
                     )
                 }
+            }
         }
     }
 }

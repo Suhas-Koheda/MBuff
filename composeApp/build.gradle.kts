@@ -58,6 +58,7 @@ kotlin {
             implementation(libs.coil.network.ktor3)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.voyager.navigator)
+            implementation("com.mayakapps.kache:kache:2.1.1")
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
