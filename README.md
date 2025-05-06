@@ -1,71 +1,121 @@
-# MovieBuff - Kotlin Multiplatform Compose Project
+# MovieBuff - Cross-Platform Movie Browser
 
-MovieBuff is a Kotlin Multiplatform project that uses Jetpack Compose Multiplatform to create a shared UI for Android, iOS, and Desktop platforms. It demonstrates how to build a movie browsing application with a shared codebase.
+![MovieBuff Logo](https://via.placeholder.com/800x200?text=MovieBuff)
 
-## Project Structure
+MovieBuff is a modern, cross-platform movie browsing application built with Kotlin Multiplatform and Jetpack Compose Multiplatform. This project demonstrates how to create a shared codebase that runs seamlessly on Android, iOS, and Desktop platforms.
 
-The project is organized as follows:
+## ✨ Features
 
-- **`/composeApp`**: Contains the shared code for the Compose Multiplatform application.
-  - **`commonMain`**: Code shared across all platforms (UI, business logic, etc.).
-  - **`androidMain`**, **`iosMain`**, **`desktopMain`**: Platform-specific code for Android, iOS, and Desktop, respectively.
+- **Cross-Platform UI**: Single codebase for Android, iOS, and Desktop platforms
+- **Movie Discovery**: Browse popular movies from The Movie Database (TMDB)
+- **Search Functionality**: Find movies by title
+- **Detailed Movie Information**: View comprehensive details about each movie
+- **Pagination Support**: Navigate through multiple pages of movie listings
+- **Language Filtering**: Filter movies by 13 different languages including:
+  - Telugu, English, Hindi, Bengali, Tamil
+  - Marathi, Gujarati, Kannada, Malayalam
+  - Punjabi, Odia, Assamese, Urdu
 
-- **`/iosApp`**: Entry point for the iOS application. This folder contains the iOS-specific setup and SwiftUI integration.
+## 🏗️ Architecture & Technology Stack
 
-- **`/androidApp`**: Entry point for the Android application. This folder contains the Android-specific setup.
+### Architecture
 
-## Running the Application
+The project follows a clean architecture approach with:
+- **Presentation Layer**: Compose UI components and ViewModels
+- **Domain Layer**: Business logic and models
+- **Data Layer**: Repositories and data sources
+
+### Technologies Used
+
+- **Kotlin Multiplatform**: For shared code across platforms
+- **Jetpack Compose Multiplatform**: For shared UI code
+- **Ktor**: For HTTP network requests to TMDB API
+- **Kotlinx Serialization**: For JSON parsing
+- **Voyager**: For navigation between screens
+- **Coil**: For image loading and caching
+- **Material 3**: For modern UI components and theming
+
+## 🚀 Project Structure
+
+```
+MovieBuff/
+├── composeApp/                 # Shared code for all platforms
+│   ├── src/
+│   │   ├── androidMain/        # Android-specific code
+│   │   ├── commonMain/         # Shared code across platforms
+│   │   │   └── kotlin/
+│   │   │       └── dev/haas/mobuff/
+│   │   │           ├── App.kt  # Main app entry point
+│   │   │           └── movies/ # Movie browsing features
+│   │   │               ├── data/       # Data layer with repositories
+│   │   │               ├── domain/     # Domain models
+│   │   │               └── presentation/ # UI components and ViewModels
+│   │   ├── desktopMain/        # Desktop-specific code
+│   │   └── iosMain/            # iOS-specific code
+├── iosApp/                     # iOS app setup
+└── gradle/                     # Gradle configuration
+```
+
+## 📱 Screenshots
+
+<table>
+  <tr>
+    <td><img src="https://via.placeholder.com/250x500?text=Movie+List" alt="Movie List" /></td>
+    <td><img src="https://via.placeholder.com/250x500?text=Movie+Details" alt="Movie Details" /></td>
+    <td><img src="https://via.placeholder.com/250x500?text=Search" alt="Search" /></td>
+  </tr>
+</table>
+
+## 🛠️ Setup and Installation
 
 ### Prerequisites
 
-1. Install [Kotlin Multiplatform Mobile plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile) in IntelliJ IDEA or Android Studio.
-2. Install the required SDKs for Android, iOS, and Desktop development:
-   - Android: Install Android Studio and configure the Android SDK.
-   - iOS: Install Xcode and configure the iOS SDK.
-   - Desktop: Ensure you have Java 11 or higher installed.
+- [Android Studio](https://developer.android.com/studio) or [IntelliJ IDEA](https://www.jetbrains.com/idea/) with Kotlin Multiplatform Mobile plugin
+- [JDK 11](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html) or newer
+- [Xcode](https://developer.apple.com/xcode/) (for iOS builds)
+- [TMDB API Key](https://developers.themoviedb.org/3/getting-started/introduction) (already configured in the repository)
 
----
+### Building the Project
 
-### Running on Android
+#### Android
 
-1. Open the project in Android Studio.
-2. Select the `androidApp` configuration.
-3. Connect an Android device or start an Android emulator.
-4. Click the "Run" button to build and deploy the app to the Android device/emulator.
+1. Open the project in Android Studio
+2. Select the 'composeApp' configuration
+3. Click 'Run' to build and run on an Android device or emulator
 
----
+#### iOS
 
-### Running on iOS
+1. Open the project in Android Studio
+2. Select "Run on iOS device" or "Run on iOS simulator" configuration
+3. Alternatively, open `/iosApp/iosApp.xcodeproj` in Xcode and run from there
 
-1. Open the project in Xcode by navigating to the `iosApp` folder and opening the `.xcworkspace` file.
-2. Select a simulator or connect a physical iOS device.
-3. Click the "Run" button to build and deploy the app to the iOS device/simulator.
+#### Desktop
 
----
+1. Open the project in Android Studio or IntelliJ IDEA
+2. Select the 'desktopApp' configuration
+3. Click 'Run' to build and run on your desktop
 
-### Running on Desktop
+Alternatively, run from the command line:
+```bash
+./gradlew :composeApp:run
+```
 
-1. Open a terminal and navigate to the project root directory.
-2. Run the following command to build and run the desktop application:
-   ```bash
-   ./gradlew build :composeApp:run
-   ```
-3. The desktop application will launch in a new window.
+## 🤝 Contributing
 
----
+Contributions are welcome! Feel free to:
 
-## Features
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-- **Movie Browsing**: Browse movies by language, popularity, and release date.
-- **Search**: Search for movies by title.
-- **Details View**: View detailed information about a selected movie.
+## 📄 License
 
-## Learn More
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-- [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html)
-- [Jetpack Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/)
-- [The Movie Database (TMDb) API](https://developers.themoviedb.org/3)
+## 🙏 Acknowledgements
 
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
+- [The Movie Database (TMDB)](https://www.themoviedb.org/) for the movie data API
+- [Jetpack Compose](https://developer.android.com/jetpack/compose) for the modern UI toolkit
+- [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) for cross-platform development
