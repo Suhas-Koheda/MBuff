@@ -58,7 +58,7 @@ kotlin {
             implementation(libs.coil.network.ktor3)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.voyager.navigator)
-            implementation("com.mayakapps.kache:kache:2.1.1")
+            implementation("io.github.reactivecircus.cache4k:cache4k:0.14.0")
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

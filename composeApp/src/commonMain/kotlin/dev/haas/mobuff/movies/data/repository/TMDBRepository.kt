@@ -1,22 +1,18 @@
 package dev.haas.mobuff.movies.data.repository
 
-import com.mayakapps.kache.InMemoryKache
-import com.mayakapps.kache.KacheStrategy
-import dev.haas.mobuff.movies.domain.model.MovieResponse
 import dev.haas.mobuff.movies.data.interfaces.TMDBClient
 import dev.haas.mobuff.movies.data.interfaces.TMDBClient.Companion.LISTURL
 import dev.haas.mobuff.movies.data.interfaces.TMDBClient.Companion.SEARCHURL
 import dev.haas.mobuff.movies.data.interfaces.TMDBClient.Companion.httpClient
+import dev.haas.mobuff.movies.domain.model.MovieResponse
+import io.github.reactivecircus.cache4k.Cache
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.client.request.parameter
-import kotlinx.serialization.json.Json
 
 class TMDBRepository private constructor() : TMDBClient {
-    val responseCache = InMemoryKache<String, MovieResponse>(maxSize = 10 * 1024 * 1024) {
-        strategy = KacheStrategy.LRU
-    }
+    val responseCache = Cache.Builder<String, MovieResponse>().build()
 
     override suspend fun getMovie(query: String, language: String, page: Int): MovieResponse {
         val cacheKey = "$query-$language-$page"
