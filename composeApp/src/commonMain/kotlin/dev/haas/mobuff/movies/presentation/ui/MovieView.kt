@@ -66,11 +66,9 @@ class MovieScreen : Screen {
                 is MovieViewModel.MovieState.Error -> {
                     Text((movieState.value as MovieViewModel.MovieState.Error).message)
                 }
-
                 MovieViewModel.MovieState.Loading -> {
                     CircularProgressIndicator()
                 }
-
                 is MovieViewModel.MovieState.Success -> {
                     val moviesGrid = (movieState.value as MovieViewModel.MovieState.Success).movies
                     MovieGrid(moviesGrid, onClick = { movie ->
