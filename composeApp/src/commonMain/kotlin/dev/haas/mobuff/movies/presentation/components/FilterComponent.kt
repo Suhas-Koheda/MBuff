@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Filters(language: (String) -> Unit, page: (Int) -> Unit) {
+fun Filters(languageFun: (String) -> Unit, pageFun: (Int) -> Unit) {
     val indianLanguages = listOf(
         Pair("Telugu", "te"),
         Pair("English", "en"),
@@ -33,7 +33,9 @@ fun Filters(language: (String) -> Unit, page: (Int) -> Unit) {
         Pair("Urdu", "ur")
     )
 
-    var selectedLanguage by remember { mutableStateOf("te") }
+    var selectedLanguage by remember { mutableStateOf(indianLanguages[0].second) }
+    var page by remember { mutableStateOf(1) }
+    var lastPage by remember { mutableStateOf(10) }
     Column {
         LazyRow(
             contentPadding = PaddingValues(horizontal = 8.dp),
@@ -45,14 +47,14 @@ fun Filters(language: (String) -> Unit, page: (Int) -> Unit) {
                     selected = selectedLanguage == language.second,
                     onClick = {
                         selectedLanguage = language.second
-                        //TODO:
+                        languageFun(language.second)
+                        page = 1
                     },
                     label = { Text(language.first) },
                     modifier = Modifier.padding(end = 8.dp)
                 )
             }
         }
-        var page by remember { mutableStateOf(1) }
         LazyRow(
             contentPadding = PaddingValues(horizontal = 8.dp),
             modifier = Modifier.fillMaxWidth()
@@ -63,7 +65,7 @@ fun Filters(language: (String) -> Unit, page: (Int) -> Unit) {
                         selected = page == i,
                         onClick = {
                             page = i
-                            //TODO:
+                            pageFun(page)
                         },
                         label = { Text("$i") },
                         modifier = Modifier.padding(end = 8.dp)
@@ -73,7 +75,8 @@ fun Filters(language: (String) -> Unit, page: (Int) -> Unit) {
             item {
                 FilterChip(
                     onClick = {
-                        //TODO:
+                        pageFun(lastPage)
+                        lastPage++
                     },
                     label = { Text("Next") },
                     modifier = Modifier.padding(end = 8.dp),

@@ -13,6 +13,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.haas.mobuff.movies.data.repository.TMDBRepository
+import dev.haas.mobuff.movies.presentation.components.Filters
 import dev.haas.mobuff.movies.presentation.components.MovieGrid
 import dev.haas.mobuff.movies.presentation.components.SearchWidget
 import dev.haas.mobuff.movies.presentation.viewmodel.MovieViewModel
@@ -54,6 +55,27 @@ class MovieScreen : Screen {
                     savedLanguage = selectedLanguage
                     savedPage = page
 
+                    movieViewModel.fetchMovies(
+                        query = movieQuery,
+                        language = selectedLanguage,
+                        page = page
+                    )
+                }
+            )
+            Filters(
+                languageFun = { language ->
+                    selectedLanguage = language
+                    page = 1
+                    savedLanguage = language
+                    movieViewModel.fetchMovies(
+                        query = movieQuery,
+                        language = selectedLanguage,
+                        page = page
+                    )
+                },
+                pageFun = { pageP ->
+                    savedPage = pageP
+                    page = pageP
                     movieViewModel.fetchMovies(
                         query = movieQuery,
                         language = selectedLanguage,
