@@ -2,16 +2,15 @@ package dev.haas.mobuff.movies.presentation.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -39,7 +38,6 @@ class MovieScreen : Screen {
         private var hasInitialResults = false
     }
 
-    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
         MobuffTheme {
@@ -63,20 +61,7 @@ class MovieScreen : Screen {
                 true
             }
 
-            Scaffold(
-                topBar = {
-                    TopAppBar(
-                        title = { Text("MoBuff") },
-                        actions = {
-                            ThemeToggleButton()
-                        },
-                        colors = TopAppBarDefaults.topAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.primary,
-                            titleContentColor = MaterialTheme.colorScheme.onPrimary
-                        )
-                    )
-                }
-            ) { innerPadding ->
+            Scaffold { innerPadding ->
                 Surface(
                     modifier = Modifier
                         .fillMaxSize()
@@ -84,22 +69,28 @@ class MovieScreen : Screen {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     Column {
-                        SearchWidget(
-                            initialQuery = movieQuery,
-                            pref = { movie ->
-                                movieQuery = movie
-                                savedQuery = movie
-                                savedLanguage = selectedLanguage
-                                savedPage = page
-                                hasInitialResults = true
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            ThemeToggleButton()
+                            SearchWidget(
+                                initialQuery = movieQuery,
+                                pref = { movie ->
+                                    movieQuery = movie
+                                    savedQuery = movie
+                                    savedLanguage = selectedLanguage
+                                    savedPage = page
+                                    hasInitialResults = true
 
-                                movieViewModel.fetchMovies(
-                                    query = movieQuery,
-                                    language = selectedLanguage,
-                                    page = page
-                                )
-                            }
-                        )
+                                    movieViewModel.fetchMovies(
+                                        query = movieQuery,
+                                        language = selectedLanguage,
+                                        page = page
+                                    )
+                                }
+                            )
+                        }
 
                         Filters(
                             initialLanguage = selectedLanguage,

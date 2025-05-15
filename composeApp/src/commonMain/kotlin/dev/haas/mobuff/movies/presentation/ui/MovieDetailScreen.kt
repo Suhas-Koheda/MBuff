@@ -59,51 +59,71 @@ class MovieDetailScreen(private val movie: Movie) : Screen {
     @Composable
     override fun Content() {
         val scrollState = rememberScrollState()
+        val navigator = LocalNavigator.currentOrThrow
 
         Box(modifier = Modifier.fillMaxSize()) {
+            // Background image with blur
+            AsyncImage(
+                model = movie.backDropPathUrl,
+                contentDescription = null,
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier.fillMaxSize().blur(2.dp)
+            )
+
+            // Enhanced gradient overlay with multiple color stops
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Black.copy(alpha = 0.1f),
+                                Color.Black.copy(alpha = 0.4f),
+                                Color.Black.copy(alpha = 0.7f),
+                                Color.Black.copy(alpha = 0.9f)
+                            ),
+                            startY = 0f,
+                            endY = 1200f
+                        )
+                    )
+            )
+
+            // Add a horizontal gradient for more dimension
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.horizontalGradient(
+                            colors = listOf(
+                                Color(0xFF000030).copy(alpha = 0.4f),
+                                Color.Transparent,
+                                Color(0xFF300030).copy(alpha = 0.3f)
+                            )
+                        )
+                    )
+            )
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(scrollState)
             ) {
-                val navigator= LocalNavigator.currentOrThrow
+                IconButton(
+                    onClick = { navigator.pop() },
+                    modifier = Modifier.zIndex(2f).padding(8.dp)
+                ) {
+                    Icon(
+                        Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                        contentDescription = "Back",
+                        tint = Color.White
+                    )
+                }
+
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(250.dp)
                 ) {
-                    IconButton(
-                        onClick = { navigator.pop() },
-                        modifier = Modifier.zIndex(2f).padding(8.dp)
-                    ) {
-                        Icon(
-                            Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                            contentDescription = "Back",
-                            tint = Color.White
-                        )
-                    }
-                    AsyncImage(
-                        model = movie.backDropPathUrl,
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .blur(2.dp)
-                    )
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(
-                                Brush.verticalGradient(
-                                    colors = listOf(
-                                        Color.Black.copy(alpha = 0.3f),
-                                        MaterialTheme.colorScheme.background
-                                    ),
-                                    startY = 100f
-                                )
-                            )
-                    )
-
                     Card(
                         modifier = Modifier
                             .width(140.dp)
@@ -117,13 +137,7 @@ class MovieDetailScreen(private val movie: Movie) : Screen {
                             model = movie.posterPathUrl,
                             contentDescription = null,
                             contentScale = ContentScale.Crop,
-                            modifier = Modifier.fillMaxSize(),
-                            onError = {
-                                println("Image loading failed: ${it.result.throwable}")
-                            },
-                            onLoading = {
-                                println("Loading")
-                            }
+                            modifier = Modifier.fillMaxSize()
                         )
                     }
                 }
