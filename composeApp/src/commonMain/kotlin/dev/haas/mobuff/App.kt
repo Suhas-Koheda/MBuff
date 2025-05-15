@@ -1,15 +1,13 @@
 package dev.haas.mobuff
 
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import cafe.adriel.voyager.navigator.Navigator
+import dev.haas.mobuff.movies.presentation.theme.MobuffTheme
 import dev.haas.mobuff.movies.presentation.ui.MovieScreen
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-@Preview
 fun App() {
-    MaterialTheme {
+    MobuffTheme {
         Navigator(MovieScreen())
     }
 }

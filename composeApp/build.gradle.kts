@@ -59,6 +59,7 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.voyager.navigator)
             implementation("io.github.reactivecircus.cache4k:cache4k:0.14.0")
+            implementation("org.jetbrains.compose.material:material-icons-core:1.7.3")
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
