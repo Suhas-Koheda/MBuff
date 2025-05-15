@@ -12,45 +12,52 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
 private val LightColorScheme = lightColorScheme(
-    primary = Color(0xFF0F52BA),
+    primary = Color(0xFFFF5722),
     onPrimary = Color.White,
-    primaryContainer = Color(0xFFD1E1FF),
-    onPrimaryContainer = Color(0xFF001D36),
-    secondary = Color(0xFFFF6B00),
-    onSecondary = Color.White,
-    secondaryContainer = Color(0xFFFFDCC3),
-    onSecondaryContainer = Color(0xFF2C1600),
-    tertiary = Color(0xFF6750A4),
-    background = Color(0xFFF8F9FA),
+    primaryContainer = Color(0xFFFFEDE8),
+    onPrimaryContainer = Color(0xFF3F1400),
+    secondary = Color(0xFFFF9800),
+    onSecondary = Color.Black,
+    secondaryContainer = Color(0xFFFFECCF),
+    onSecondaryContainer = Color(0xFF3D2600),
+    tertiary = Color(0xFFFF3D00),
+    onTertiary = Color.White,
+    tertiaryContainer = Color(0xFFFFDBD0),
+    onTertiaryContainer = Color(0xFF3F0D00),
+    background = Color(0xFFFFFBF8),
     surface = Color(0xFFFFFFFF),
-    onSurface = Color(0xFF1A1C1E),
-    surfaceVariant = Color(0xFFE0E2EC),
-    onSurfaceVariant = Color(0xFF44474E)
+    onSurface = Color(0xFF1C1B1F),
+    surfaceVariant = Color(0xFFF3E5D7),
+    onSurfaceVariant = Color(0xFF4E4539),
+    error = Color(0xFFD83B01),
+    outline = Color(0xFF847467)
 )
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Color(0xFF9ECAFF),
-    onPrimary = Color(0xFF003258),
-    primaryContainer = Color(0xFF00497D),
-    onPrimaryContainer = Color(0xFFD1E4FF),
-    secondary = Color(0xFFFFB77C),
-    onSecondary = Color(0xFF492900),
-    secondaryContainer = Color(0xFF6A3C00),
-    onSecondaryContainer = Color(0xFFFFDCC3),
-    tertiary = Color(0xFFCFBCFF),
-    background = Color(0xFF1A1C1E),
-    surface = Color(0xFF111316),
-    onSurface = Color(0xFFE3E2E6),
-    surfaceVariant = Color(0xFF43474E),
-    onSurfaceVariant = Color(0xFFC3C7CF)
+    primary = Color(0xFFFF7D47),
+    onPrimary = Color.Black,
+    primaryContainer = Color(0xFF8B3000),
+    onPrimaryContainer = Color(0xFFFFEDE8),
+    secondary = Color(0xFFFFB74D),
+    onSecondary = Color.Black,
+    secondaryContainer = Color(0xFF7F4F00),
+    onSecondaryContainer = Color(0xFFFFECCF),
+    tertiary = Color(0xFFFF6E40),
+    onTertiary = Color.Black,
+    tertiaryContainer = Color(0xFF8C2100),
+    onTertiaryContainer = Color(0xFFFFDBD0),
+    background = Color(0xFF1E1410),
+    surface = Color(0xFF2E211A),
+    onSurface = Color(0xFFEDE0D4),
+    surfaceVariant = Color(0xFF3E2E22),
+    onSurfaceVariant = Color(0xFFD7C2B2),
+    error = Color(0xFFFF6D42),
+    outline = Color(0xFFA48E7C)
 )
 
-// Create a properly working global theme state with a flag to track if initialization has happened
 object ThemeManager {
     private val _isDarkTheme = mutableStateOf(false)
     val isDarkTheme: State<Boolean> = _isDarkTheme
-
-    // Track whether the theme has been explicitly set by the user
     private var hasBeenInitialized = false
 
     fun toggleTheme() {
@@ -59,7 +66,6 @@ object ThemeManager {
     }
 
     fun setDarkTheme(isDark: Boolean) {
-        // Only set the theme from the system if it hasn't been explicitly set by the user
         if (!hasBeenInitialized) {
             _isDarkTheme.value = isDark
         }
@@ -73,7 +79,6 @@ fun MobuffTheme(
     isDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    // This will only apply the system theme on the first composition
     ThemeManager.setDarkTheme(isDarkTheme)
 
     val colorScheme = if (ThemeManager.isDarkTheme.value) {
@@ -91,4 +96,3 @@ fun MobuffTheme(
 }
 
 val Typography = androidx.compose.material3.Typography()
-
