@@ -1,10 +1,6 @@
 package dev.haas.mobuff.movies.presentation.ui
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,7 +27,6 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,7 +35,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -54,51 +48,37 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import coil3.compose.AsyncImage
 import dev.haas.mobuff.movies.domain.model.Movie
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 class MovieDetailScreen(private val movie: Movie) : Screen {
+    @Preview
     @Composable
     override fun Content() {
         val scrollState = rememberScrollState()
         val navigator = LocalNavigator.currentOrThrow
 
         Box(modifier = Modifier.fillMaxSize()) {
-            // Background image with blur
-            AsyncImage(
-                model = movie.backDropPathUrl,
-                contentDescription = null,
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier.fillMaxSize().blur(2.dp)
-            )
+            if (movie.backDropPathUrl.isNotEmpty()) {
+                AsyncImage(
+                    model = movie.backDropPathUrl,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(800.dp)
+                )
+            }
 
-            // Enhanced gradient overlay with multiple color stops
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(
                         Brush.verticalGradient(
                             colors = listOf(
-                                Color.Black.copy(alpha = 0.1f),
-                                Color.Black.copy(alpha = 0.4f),
-                                Color.Black.copy(alpha = 0.7f),
-                                Color.Black.copy(alpha = 0.9f)
-                            ),
-                            startY = 0f,
-                            endY = 1200f
-                        )
-                    )
-            )
-
-            // Add a horizontal gradient for more dimension
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        Brush.horizontalGradient(
-                            colors = listOf(
-                                Color(0xFF000030).copy(alpha = 0.4f),
                                 Color.Transparent,
-                                Color(0xFF300030).copy(alpha = 0.3f)
-                            )
+                                MaterialTheme.colorScheme.background
+                            ),
+                            startY = 800f,
                         )
                     )
             )
@@ -110,7 +90,9 @@ class MovieDetailScreen(private val movie: Movie) : Screen {
             ) {
                 IconButton(
                     onClick = { navigator.pop() },
-                    modifier = Modifier.zIndex(2f).padding(8.dp)
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .zIndex(1f)
                 ) {
                     Icon(
                         Icons.AutoMirrored.Filled.KeyboardArrowLeft,
@@ -156,7 +138,7 @@ class MovieDetailScreen(private val movie: Movie) : Screen {
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth(),
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
@@ -164,7 +146,7 @@ class MovieDetailScreen(private val movie: Movie) : Screen {
                     Card(
                         modifier = Modifier.fillMaxWidth(),
                         colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f)
+                            containerColor = MaterialTheme.colorScheme.surfaceVariant
                         )
                     ) {
                         Row(
@@ -174,39 +156,27 @@ class MovieDetailScreen(private val movie: Movie) : Screen {
                             horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                Text(
-                                    text = "Language",
-                                    style = MaterialTheme.typography.labelMedium
-                                )
+                                Text(text = "Language")
                                 Text(
                                     text = movie.original_language.uppercase(),
-                                    style = MaterialTheme.typography.bodyLarge,
-                                    fontWeight = FontWeight.Medium
+                                    fontWeight = FontWeight.Bold
                                 )
                             }
 
                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                Text(
-                                    text = "Popularity",
-                                    style = MaterialTheme.typography.labelMedium
-                                )
+                                Text(text = "Popularity")
                                 Text(
                                     text = movie.popularity.toString(),
-                                    style = MaterialTheme.typography.bodyLarge,
-                                    fontWeight = FontWeight.Medium
+                                    fontWeight = FontWeight.Bold
                                 )
                             }
 
                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                Text(
-                                    text = "Release",
-                                    style = MaterialTheme.typography.labelMedium
-                                )
+                                Text(text = "Release")
                                 movie.release_date?.let {
                                     Text(
                                         text = it,
-                                        style = MaterialTheme.typography.bodyLarge,
-                                        fontWeight = FontWeight.Medium
+                                        fontWeight = FontWeight.Bold
                                     )
                                 }
                             }
@@ -232,10 +202,11 @@ class MovieDetailScreen(private val movie: Movie) : Screen {
 fun Overview(overview: String) {
     var isExpanded by rememberSaveable { mutableStateOf(false) }
 
-    Surface(
+    Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
-        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        )
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(
@@ -253,19 +224,13 @@ fun Overview(overview: String) {
                 )
                 Icon(
                     imageVector = if (isExpanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary
+                    contentDescription = null
                 )
             }
 
-            AnimatedVisibility(
-                visible = isExpanded,
-                enter = fadeIn() + expandVertically(),
-                exit = fadeOut() + shrinkVertically()
-            ) {
+            AnimatedVisibility(visible = isExpanded) {
                 Text(
                     text = overview,
-                    style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(top = 8.dp)
                 )
             }
@@ -275,10 +240,11 @@ fun Overview(overview: String) {
 
 @Composable
 fun Details(movie: Movie) {
-    Surface(
+    Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
-        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        )
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
@@ -294,14 +260,9 @@ fun Details(movie: Movie) {
                     .padding(vertical = 4.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    text = "Original Title",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                Text(text = "Original Title")
                 Text(
                     text = movie.original_title,
-                    style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium,
                     textAlign = TextAlign.End,
                     modifier = Modifier.width(200.dp),
@@ -310,10 +271,7 @@ fun Details(movie: Movie) {
                 )
             }
 
-            Divider(
-                modifier = Modifier.padding(vertical = 8.dp),
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
-            )
+            Divider(modifier = Modifier.padding(vertical = 8.dp))
 
             Row(
                 modifier = Modifier
@@ -321,22 +279,14 @@ fun Details(movie: Movie) {
                     .padding(vertical = 4.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    text = "Original Language",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                Text(text = "Original Language")
                 Text(
                     text = movie.original_language.uppercase(),
-                    style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium
                 )
             }
 
-            Divider(
-                modifier = Modifier.padding(vertical = 8.dp),
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
-            )
+            Divider(modifier = Modifier.padding(vertical = 8.dp))
 
             Row(
                 modifier = Modifier
@@ -344,22 +294,14 @@ fun Details(movie: Movie) {
                     .padding(vertical = 4.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    text = "Popularity",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                Text(text = "Popularity")
                 Text(
                     text = movie.popularity.toString(),
-                    style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium
                 )
             }
 
-            Divider(
-                modifier = Modifier.padding(vertical = 8.dp),
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f)
-            )
+            Divider(modifier = Modifier.padding(vertical = 8.dp))
 
             Row(
                 modifier = Modifier
@@ -367,15 +309,10 @@ fun Details(movie: Movie) {
                     .padding(vertical = 4.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
-                    text = "Release Date",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                Text(text = "Release Date")
                 movie.release_date?.let {
                     Text(
                         text = it,
-                        style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.Medium
                     )
                 }

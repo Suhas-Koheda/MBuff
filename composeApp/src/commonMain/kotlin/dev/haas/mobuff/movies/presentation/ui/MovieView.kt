@@ -29,6 +29,7 @@ import dev.haas.mobuff.movies.presentation.components.SearchWidget
 import dev.haas.mobuff.movies.presentation.components.ThemeToggleButton
 import dev.haas.mobuff.movies.presentation.theme.MobuffTheme
 import dev.haas.mobuff.movies.presentation.viewmodel.MovieViewModel
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 class MovieScreen : Screen {
     companion object {
@@ -38,6 +39,7 @@ class MovieScreen : Screen {
         private var hasInitialResults = false
     }
 
+    @Preview
     @Composable
     override fun Content() {
         MobuffTheme {
